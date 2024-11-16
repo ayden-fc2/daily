@@ -167,4 +167,4 @@ command += [
     '-y'
 ]
 subprocess.run(command, check=True)
-ffmpeg.input('tmp1.mp4').output("【Spotify Pinterest日推】{song_name} - {song_author}.mp4", vcodec='copy', acodec='copy').run(overwrite_output=True)
+ffmpeg.input('tmp1.mp4').output(f'【Spotify Pinterest日推】{song_name} - {song_author}.mp4', vcodec='copy', acodec='copy').run(overwrite_output=True)
