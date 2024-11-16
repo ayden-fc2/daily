@@ -56,7 +56,7 @@ for idx, img in enumerate(images):
     img_width = int(img_info['streams'][0]['width'])
     img_height = int(img_info['streams'][0]['height'])
 
-    if img_width < img_height * 1.36:
+    if img_width < img_height * 1.3:
         scaled_images.append(ffmpeg.input(img).filter('scale', 1300, -1).filter('crop', 1300, 1000, (img_height - 1000) // 2))
     else:
         scaled_images.append(ffmpeg.input(img).filter('scale', -1, 1000).filter('crop', 1300, 1000, (img_width - 1300) // 2, 0))
