@@ -14,11 +14,12 @@ audio_path = glob.glob(os.path.join('music', "*.mp3"))[0]
 # TODO: 提取不到cover时需要手动填充cover_path和作者名
 cover_path = 'music/logo.jpg'
 find_cover_author = True
-song_author = ''
+song_author = '大籽&Lil E'
 # 提取封面、歌曲名
 audio = MP3(audio_path, ID3=EasyID3)
-song_name = os.path.basename(audio_path).split(' - ', 1)[-1].rsplit('.', 1)[0]
+song_name = '放空'
 if find_cover_author:
+    song_name = os.path.basename(audio_path)
     song_logo = None
     author = None
     tags = ID3(audio_path)
@@ -167,4 +168,11 @@ command += [
     '-y'
 ]
 subprocess.run(command, check=True)
-ffmpeg.input('tmp1.mp4').output(f'【Spotify Pinterest日推】{song_name} - {song_author}.mp4', vcodec='copy', acodec='copy').run(overwrite_output=True)
+outputname="【Spotify Pinterest日推】" + song_name + " - " + song_author + ".mp4"
+outputname=outputname.replace("/","&")
+command=[
+    'mv',
+    'tmp1.mp4',
+    outputname
+        ]
+subprocess.run(command, check=True)
