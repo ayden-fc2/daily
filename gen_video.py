@@ -19,7 +19,7 @@ song_author = '大籽&Lil E'
 audio = MP3(audio_path, ID3=EasyID3)
 song_name = '放空'
 if find_cover_author:
-    song_name = os.path.basename(audio_path)
+    song_name = os.path.basename(audio_path).rsplit(".",1)[0]
     song_logo = None
     author = None
     tags = ID3(audio_path)
@@ -113,7 +113,7 @@ ffmpeg.input('tmp2.mp4').output('tmp1.mp4',
                                   filter_complex=(
                                       # 标题、作者
                                       f"drawtext=text='{title_text}':fontfile={font_file}:fontcolor='#f8f8f8':fontsize={video_height * 0.04}:x={video_width * 0.04}:y={video_height * 0.04},"
-                                      f"drawtext=text='{song_name}':fontfile={font_file}:fontcolor='#ffffff':fontsize={video_height * 0.1}:x={video_width * 0.04}:y={video_height * 0.75},"
+                                      f"drawtext=text='{song_name}':fontfile={font_file}:fontcolor='#ffffff':fontsize={video_height * 0.08}:x={video_width * 0.04}:y={video_height * 0.75},"
                                       f"drawtext=text='{song_author}':fontfile={font_file}:fontcolor='#ffffff':fontsize={video_height * 0.04}:x={video_width * 0.05}:y={video_height * 0.88},"
                                   ),
                                   vcodec='libx264', acodec='copy', crf=0).run(overwrite_output=True)
@@ -168,11 +168,24 @@ command += [
     '-y'
 ]
 subprocess.run(command, check=True)
-outputname="【Spotify Pinterest日推】" + song_name + " - " + song_author + ".mp4"
+outputname="【Spotify Pinterest随推】" + song_name + " - " + song_author + ".mp4"
 outputname=outputname.replace("/","&")
-command=[
-    'mv',
-    'tmp1.mp4',
-    outputname
+
+command = [
+        'mv',
+        'tmp1.mp4',
+        outputname
         ]
+
+
 subprocess.run(command, check=True)
+
+
+command = """
+rm -rf ./music/* &&
+rm -rf ./images/* &&
+rm -rf ./processed_images/* &&
+rm tmp2.mp4
+"""
+
+subprocess.run(command, shell=True, check=True)
